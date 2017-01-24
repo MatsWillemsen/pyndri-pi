@@ -56,14 +56,8 @@ class Index:
     
     def term_count(self, term):
         return self.term_frequencies[term]
-"""
-    def term_count_collection(self, term):
-        if term in self.cache['term_collection']:
-            return self.cache['term_collection'][term]
-        else:
-            self.cache['term_collection'][term] = sum(document.count(term) for document in self.documents())
-            return self.cache['term_collection'][term]
-"""
+
+        
     def _fill_dictionary(self):
         self.token2id = {}
         self.id2token = {}
