@@ -15,15 +15,19 @@ class Index:
         manifest = namedtuple('manifest', 'document_count unique_terms total_terms')
         contents = open(os.path.join(location, 'manifest'), 'rb').read()
         self.manifest = manifest._make(unpack('<QQQ', contents))
-    
+
     def document(self, doc_id):
         self.doc_index.seek(doc_id * 4)
         location = unpack('<I',self.doc_index.read(4))[0]
         self.data.seek(location)
         id_len, term_len = unpack('<HI', self.data.read(6))
         ext_document_id = self.data.read(id_len).decode('utf-8')
-        terms = tuple(unpack('<I', self.data.read(4))[0] for _ in range(term_len))
+        terms = unpack('<{}I'.format(term_len), self.data.read(4 * term_len))
         return (ext_document_id, terms)
+    
+    def documents(self):
+        for document in range(0, self.maximum_document()):
+            yield self.document(document)
     
     def document_base(self):
         return 0
