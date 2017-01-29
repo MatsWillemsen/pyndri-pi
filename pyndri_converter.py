@@ -41,7 +41,3 @@ class IndriConverter:
         data.close()
         doc_index.close()
         term_index.close()
-
-converter = IndriConverter('/Users/mats/OneDrive/Persoonlijk/Studie/MSc Information Studies/Structured Unstructured/index')
-converter.load_index()
-converter.save_index('converted_ordered/')
